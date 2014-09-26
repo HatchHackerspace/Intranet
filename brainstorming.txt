@@ -1,0 +1,20 @@
+[Objective]
+
+Requirements file used to gather all specifications for the intranet.
+
+[Guidelines]
+
+1.Do not modify chapters, they are useful to separate priorities
+2.Try to explain any feature/idea as shortly as possible
+3.Read all previous features/ideas in order to avoid submission duplicates
+4.If you find any items that need grammar editing do it without asking
+5.Please do not argue about the colour of the bikeshed
+6.Keep it in english, so that everybody can understand
+
+[Main features]
+-three main elements to manage: members (accounts, permissions, messages, etc), tasks, inventories
+
+[Nice to haves]
+
+
+[Ideas for future developments, integrations, etc]
