@@ -4,7 +4,7 @@ Requirements file used to gather all specifications for the intranet.
 
 [Guidelines]
 
-1.Do not modify chapters, they are useful to separate priorities
+1.Do not modify chapter names, they are useful to separate priorities
 2.Try to explain any feature/idea as shortly as possible
 3.Read all previous features/ideas in order to avoid submission duplicates
 4.If you find any items that need grammar editing do it without asking
@@ -12,7 +12,19 @@ Requirements file used to gather all specifications for the intranet.
 6.Keep it in english, so that everybody can understand
 
 [Main features]
--three main elements to manage: members (accounts, permissions, messages, etc), tasks, inventories
+-four main elements to manage: members (accounts, permissions, messages, etc), tasks, inventories, projects
+
+[Members]
+-basic info for each member: 
+1.join date (automatic, ISO format)
+2.username (user input, string, less than 50 characters, no special characters allowed)
+3.email (user input, hidden, string, verify validity as email, email to confirm)
+4.status (set by admin, active/inactive depending on membership payment, boolean)
+5.specialties (user input, list of strings, each string less than 50 characters)
+6.interests (user input, list of strings, each string less than 50 characters)
+7.current projects (reference to projects ids, list of ids)
+8.availability (user input, yes/no switch, boolean)
+9.visiting hours (user input, 7 objects, each object contains list of start and end hours, hours in hh:mm format)
 
 [Nice to haves]
 
