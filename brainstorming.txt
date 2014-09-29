@@ -27,6 +27,9 @@ Requirements file used to gather all specifications for the intranet.
 9.visiting hours (user input, 7 objects, each object contains list of start and end hours, hours in hh:mm format)
 
 [Nice to haves]
-
+- Invite system for projects (?) - aka "I'd really like it if you helped me with this project" 
+- Finance ideas area 
+- Wishlists (?) 
+- Mini accounting -> membership dues, extra towards specific propjects or wishlists
 
 [Ideas for future developments, integrations, etc]
