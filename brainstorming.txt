@@ -30,6 +30,6 @@ Requirements file used to gather all specifications for the intranet.
 - Invite system for projects (?) - aka "I'd really like it if you helped me with this project" 
 - Finance ideas area 
 - Wishlists (?) 
-- Mini accounting -> membership dues, extra towards specific propjects or wishlists
+- Mini accounting -> membership dues, extra towards specific projects or wishlists
 
 [Ideas for future developments, integrations, etc]
