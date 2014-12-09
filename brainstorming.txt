@@ -12,7 +12,7 @@ Requirements file used to gather all specifications for the intranet.
 6.Keep it in english, so that everybody can understand
 
 [Main features]
--four main elements to manage: members (accounts, permissions, messages, etc), public wall, tasks, inventories, projects
+-five main elements to manage: members (accounts, permissions, messages, etc), public wall, tasks, inventories, projects
 
 [Members]
 -basic info for each member: 
@@ -37,8 +37,9 @@ Requirements file used to gather all specifications for the intranet.
 3.title (optional)
 4.content
 5.reference to previous msg (optional)
+6.reference to other item (object type and id)
 
-[public wall]
+[Public wall]
 -contains a list of posts; posts can have replies, every post is searchable; posts can have tags and can be sticky
 -displayed as a river of news; details and replies on separate page
 -database model:
@@ -48,7 +49,27 @@ Requirements file used to gather all specifications for the intranet.
 4.author (required, automatic, reference to member)
 5.sticky (boolean, user input)
 6.tags (user input, list of strings, each string less than 20 characters)
+7.messages attached (list of references to messages attached)
 
+[Projects]
+-similar to public wall (posts with a description)
+-database model:
+1.publish date (automatic, ISO format)
+2.title (required, user input, string)
+3.description (required, user input, string)
+4.owner (reference to member)
+5.members (list of members)
+6.visibility (boolean, public/private)
+7.activity (automatic, from "highly active to inactive", based on number of posts per last 7 days)
+8.messages attached (list of references to messages attached)
+
+[Inventory]
+-database model:
+1.item id (automatic, optionally to be printed and sticked on item)
+2.item description (required, user input, string)
+3.quantity (number, user input, string)
+4.inventory date (automatic, ISO format)
+5.consumable (boolean, required, user input)
 
 [Nice to haves]
 - Invite system for projects (?) - aka "I'd really like it if you helped me with this project" 
