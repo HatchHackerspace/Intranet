@@ -1,9 +1,7 @@
 [Objective]
-
 Requirements file used to gather all specifications for the intranet.
 
 [Guidelines]
-
 1.Do not modify chapter names, they are useful to separate priorities
 2.Try to explain any feature/idea as shortly as possible
 3.Read all previous features/ideas in order to avoid submission duplicates
@@ -15,7 +13,7 @@ Requirements file used to gather all specifications for the intranet.
 -five main elements to manage: members (accounts, permissions, messages, etc), public wall, tasks, inventories, projects
 
 [Members]
--basic info for each member: 
+-database model: 
 1.join date (automatic, ISO format)
 2.username (user input, string, less than 50 characters, no special characters allowed)
 3.email (user input, hidden, string, verify validity as email, email to confirm)
@@ -31,13 +29,13 @@ Requirements file used to gather all specifications for the intranet.
 1.private (between 2+ members)
 2.posts on public wall
 3.attached to other items (tasks,inventories,projects, etc)
--contain:
-1.sender
-2.recipient/s
-3.title (optional)
-4.content
-5.reference to previous msg (optional)
-6.reference to other item (object type and id)
+-database model:
+1.sender (automatic, reference to member)
+2.recipient/s (list of references to members, user input)
+3.title (optional, user input, string)
+4.content (required, user input, string)
+5.reference to previous msg (automatic, reference to member, optional)
+6.reference to other item (dictionary, object type and id)
 
 [Public wall]
 -contains a list of posts; posts can have replies, every post is searchable; posts can have tags and can be sticky
