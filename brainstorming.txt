@@ -26,17 +26,13 @@ Requirements file used to gather all specifications for the intranet.
 10.avatar (image file, max 640x480)
 
 [Messages]
--can be:
-1.private (between 2+ members)
-2.posts on public wall
-3.attached to other items (tasks,inventories,projects, etc)
+-are private conversations between one or more of the members
 -database model:
 1.sender (automatic, reference to member)
 2.recipient/s (list of references to members, user input)
 3.title (optional, user input, string)
 4.content (required, user input, string)
 5.reference to previous msg (automatic, reference to member, optional)
-6.reference to other item (dictionary, object type and id)
 
 [Public wall]
 -contains a list of posts; posts can have replies, every post is searchable; posts can have tags and can be sticky
