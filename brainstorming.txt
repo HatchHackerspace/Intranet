@@ -23,6 +23,7 @@ Requirements file used to gather all specifications for the intranet.
 7.current projects (reference to projects ids, list of ids)
 8.availability (user input, yes/no switch, boolean)
 9.permissions (admin, user)
+10.avatar (image file, max 640x480)
 
 [Messages]
 -can be:
