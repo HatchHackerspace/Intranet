@@ -21,9 +21,8 @@ Requirements file used to gather all specifications for the intranet.
 5.specialties (user input, list of strings, each string less than 50 characters)
 6.interests (user input, list of strings, each string less than 50 characters)
 7.current projects (reference to projects ids, list of ids)
-8.availability (user input, yes/no switch, boolean)
-9.permissions (admin, user)
-10.avatar (image file, max 640x480)
+8.permissions (admin, user)
+9.avatar (image file, max 640x480)
 
 [Messages]
 -are private conversations between one or more of the members
