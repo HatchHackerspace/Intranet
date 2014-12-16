@@ -34,8 +34,8 @@ Requirements file used to gather all specifications for the intranet.
 5.reference to previous msg (automatic, reference to member, optional)
 
 [Public wall]
--contains a list of posts; posts can have replies, every post is searchable; posts can have tags and can be sticky
--displayed as a river of news; details and replies on separate page
+-contains a list of posts; posts have comments, can be sticky and can be announcements (different colors)
+-display ordered by date, sticky first and then newer items; details and replies on separate page
 -database model:
 1.publish date (automatic, ISO format)
 2.title (optional, user input, string)
@@ -47,6 +47,7 @@ Requirements file used to gather all specifications for the intranet.
 
 [Projects]
 -similar to public wall (posts with a description)
+-members can create a project and then other members can apply to join
 -database model:
 1.publish date (automatic, ISO format)
 2.title (required, user input, string)
