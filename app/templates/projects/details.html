@@ -1,0 +1,143 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block title %} Detalii proiect {% endblock %}
+
+{% block styles %}
+  {{ super() }}
+  <!-- Custom styles for this template -->
+  <link href="/static/css/app.css" rel="stylesheet">
+{% endblock %}
+
+{% block navbar %}
+  
+  {% import "macros.html" as macros %}
+  {{ macros.mainnavmenu(session) }}
+
+{% endblock %}
+
+{% block content %}
+    
+    <div class="container">
+    {% import "macros.html" as macros %}
+    {{ macros.flashing() }}
+
+        <div class="row content-header">
+          <div class="col-md-6">
+            <h1><strong>Detalii proiect</strong></h1>
+          </div>
+          <div class="col-md-6 pull-right" style="margin-top:25px;">
+            <span class="pull-right">
+            <a href="{{url_for('projects.list')}}" title="Inapoi" class="btn btn-primary"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span> Inapoi</a></span>
+            {% if g.user not in post.members and g.user not in post.applicants %}
+            <span class="pull-right" style="margin-right: 10px;">
+            <a href="{{url_for('projects.applyproject',id=post.id)}}" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Vreau sa particip</a></span>
+            {% else %}
+            <span class="pull-right" style="margin-right: 10px;">
+            <a href="{{url_for('projects.leaveproject',id=post.id)}}" class="btn btn-danger"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Renunta la proiect</a></span>
+            {% endif %}
+          </div>
+        </div>
+        <div class="row panel panel-primary">
+          <div class="panel-body">
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <h3 class="panel-title">{{post.title}}
+                  {% if post.author == g.user or g.user in post.members %}
+                  <span class="pull-right">
+                    <a href="{{url_for('projects.editproject',id=post.id, next=url_for('projects.detailproject',id=post.id))}}" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="bottom" title="Editeaza proiect">
+                    <span class="glyphicon glyphicon-pencil"></span></a>
+                  </span>
+                  {% endif %}</h3>
+                </div>
+                <div class="panel-body">
+                  <p>{{post.content}}</p>
+                </div>
+                <div class="panel-footer">
+                  Lucreaza la proiect:
+                  {% for t in post.members %}
+                  <a href="{{url_for('users.detailuser',id=t.id)}}" class="label label-primary">{{t.username}}</a>
+                  {% endfor %}
+                </div>
+              </div>
+              {% if post.applicants and g.user in post.members %}
+              <div class="panel panel-primary">
+                <div class="panel-heading">
+                  <h3 class="panel-title">Membri care doresc sa participe la proiect</h3>
+                </div>
+                <div class="panel-body">
+                  {% for t in post.applicants %}
+                  <div class="btn-group">
+                  <a href="{{url_for('users.detailuser',id=t.id)}}" class="btn btn-sm btn-primary" data-toggle="tooltip" data-placement="bottom" title="Vezi profil">{{t.username}}</a>
+                  <a href="{{url_for('projects.applicantmod',id=post.id,apid=t.id,action='refuse')}}" class="btn btn-sm btn-danger" data-toggle="tooltip" data-placement="bottom" title="Refuza"><span class="glyphicon glyphicon-remove"></span></a>
+                  <a href="{{url_for('projects.applicantmod',id=post.id,apid=t.id,action='accept')}}" class="btn btn-sm btn-success" data-toggle="tooltip" data-placement="bottom" title="Accepta"><span class="glyphicon glyphicon-ok"></span></a>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+              {% endif %}
+              <h2>Postari
+              {% if g.user in post.members %}
+              <span class="pull-right">
+                  <a href="{{url_for('projects.addpost',id=post.id)}}" class="btn btn-primary"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Adauga postare</a>
+                  </span>{% endif %}</h2>              
+              {% for t in results %}
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">{{t.title}}
+                  {% if t.author == g.user %}
+                  <span class="pull-right">
+                    <a href="{{url_for('projects.editpost',id=post.id)}}" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="bottom" title="Editeaza postare">
+                    <span class="glyphicon glyphicon-pencil"></span></a>
+                  </span>
+                  {% endif %}</h3>
+                </div>
+                <div class="panel-body">
+                  <p>{{t.content}}</p>
+                  <small>{{t.comments|length()}} comentarii</small>
+                  <span class="pull-right">
+                  <a href="{{url_for('projects.detailpost',id=t.id)}}" class="label label-primary">Detalii</a>
+                  </span>
+                </div>
+                <div class="panel-footer">
+                  <small>scris de: {{t.author.username}} -
+                  {{moment(t.timestamp,local=True).format('HH:mm - D.MM.YYYY')}}</small>
+                  {% if g.user == t.author %}
+                  <span class="pull-right">
+                    <a href="{{url_for('projects.editpost',id=t.id)}}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="bottom" title="Editeaza postare">
+                    <span class="glyphicon glyphicon-pencil"></span></a>
+                    <a href="{{url_for('projects.ajaxedit',action='delete',value='post',id=t.id)}}" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="bottom" title="Sterge postare">
+                    <span class="glyphicon glyphicon-remove"></span></a>
+                  </span>
+                  {% endif %}
+                </div>
+              </div>          
+              {% endfor %}
+          </div>
+        </div>
+        
+        
+      </div>
+    
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+  {{ moment.include_jquery() }}
+  {{ moment.include_moment() }}
+  {{ moment.lang('ro') }}
+    
+   <script>
+    $(document).ready(function() {
+        window.setTimeout(function() {
+    $(".alert").fadeTo(1500, 0).slideUp(100, function(){
+        $(this).remove(); 
+    }); 
+}, 2000);
+
+     });
+     </script>
+
+{% endblock %}

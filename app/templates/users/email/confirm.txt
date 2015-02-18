@@ -1,0 +1,8 @@
+Buna {{user.username}},
+
+Pentru finalizarea inregistrarii tale, te rugam sa dai click pe urmatorul link:
+
+{{url_for('users.confirmemail',token=token,_external=True)}}
+
+Multumim,
+Echipa Hatch Atelier

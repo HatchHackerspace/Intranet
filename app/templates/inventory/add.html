@@ -1,0 +1,64 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block title %} {{pagetitle}} {% endblock %}
+
+{% block styles %}
+  {{ super() }}
+  <!-- Custom styles for this template -->
+  <link href="/static/css/app.css" rel="stylesheet">
+{% endblock %}
+
+{% block navbar %}
+  
+  {% import "macros.html" as macros %}
+  {{ macros.mainnavmenu(session) }}
+
+{% endblock %}
+
+{% block content %}
+    
+    <div class="container">
+    {% import "macros.html" as macros %}
+    {{ macros.flashing() }}
+
+        <div class="row content-header">
+          <div class="col-md-6">
+            <h1><strong>{{pagetitle}}</strong></h1>
+          </div>
+          <div class="col-md-6 pull-right" style="margin-top:25px;">
+            <span class="pull-right">
+            <a href="{{request.referrer}}" title="Anuleaza" class="btn btn-primary"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span> Anuleaza</a></span>
+          </div>
+        </div>
+        <div class="row panel panel-primary">
+          <div class="panel-body">
+            
+              {{ wtf.quick_form(form=form, form_type="horizontal", horizontal_columns=("sm",2,3), button_map={'submit':'success'}) }}
+            
+          </div>
+        </div>
+        
+        
+      </div>
+    
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+      
+   <script>
+    $(document).ready(function() {
+        window.setTimeout(function() {
+    $(".alert").fadeTo(1500, 0).slideUp(100, function(){
+        $(this).remove(); 
+    });
+
+    }, 2000);
+
+     });
+     </script>
+
+{% endblock %}

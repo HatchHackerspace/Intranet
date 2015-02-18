@@ -1,0 +1,139 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %} Mesaje - {{pagetitle}} {% endblock %}
+
+{% block styles %}
+  {{ super() }}
+  <link href="/static/css/jquery.dataTables.min.css" rel="stylesheet">
+  <link href="/static/css/dataTables.tableTools.css" rel="stylesheet">
+  <link href="/static/css/dataTables.bootstrap.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="/static/css/app.css" rel="stylesheet">
+{% endblock %}
+
+{% block navbar %}
+  
+  {% import "macros.html" as macros %}
+  {{ macros.mainnavmenu(session) }}
+
+{% endblock %}
+
+{% block content %}
+    
+    <div class="container">
+    {% import "macros.html" as macros %}
+    {{ macros.flashing() }}
+
+        <div class="row content-header">
+          <div class="col-md-6">
+            <h1><strong>{{pagetitle|upper()}}</strong></h1>
+          </div>
+          <div class="col-md-6 pull-right" style="margin-top:25px;"> 
+              <div class="btn-group pull-right">
+                <a href="{{url_for('messages.list',folder='inbox')}}" class="btn {% if session.activesubmenu == 'inbox' %} btn-primary {% else %} btn-default {% endif %}">Inbox</a>
+                <a href="{{url_for('messages.list',folder='arhiva')}}" class="btn {% if session.activesubmenu == 'arhiva' %} btn-primary {% else %} btn-default {% endif %}">Arhiva</a>
+                <a href="{{url_for('messages.list',folder='trimise')}}" class="btn {% if session.activesubmenu == 'trimise' %} btn-primary {% else %} btn-default {% endif %}">Trimise</a>
+              </div>
+              <div class="pull-right" style="margin-right: 10px;">
+                <a href="{{url_for('messages.addmessage')}}" class="btn btn-success"><i class="glyphicon glyphicon-pencil"></i> Trimite mesaj</a>
+              </div> 
+          </div>
+        </div>
+        <div class="panel panel-primary">
+          <div class="panel-body">
+            
+            <table id="maintable" class="table" cellspacing="0" width="100%">
+                <thead>
+                  <tr>
+                    <th width="15%"></th>
+                    <th width="30%">{% if session.activesubmenu == 'trimise' %}Catre{% else %}De la{% endif %}</th>
+                    <th width="40%">Subiect</th>
+                    <th width="15%">Data</th>
+                  </tr>
+                </thead>
+                  <tbody>
+                     {% for t in results %}
+                     <tr {% if not t.read %} style="font-weight: bold;"{% endif %}>
+                      <td>
+                        {% if session.activesubmenu != 'trimise' %}
+                        <a href="{{url_for('messages.replymessage',id=t.id)}}" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="bottom" title="Raspunde">
+                          <span class="glyphicon glyphicon-share-alt"></span>
+                        </a>
+                        {% if not t.read %}
+                        <a href="{{url_for('messages.ajaxedit',action='markread',id=t.id)}}" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="bottom" title="Marcheaza ca citit">
+                          <span class="glyphicon glyphicon-eye-open"></span>
+                        </a>
+                        {% else %}
+                        <a href="{{url_for('messages.ajaxedit',action='markunread',id=t.id)}}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="bottom" title="Marcheaza ca necitit">
+                          <span class="glyphicon glyphicon-eye-close"></span>
+                        </a>
+                        {% endif %}
+                        {% if session.activesubmenu != 'arhiva' %}
+                        <a href="{{url_for('messages.ajaxedit',action='archive',id=t.id)}}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="bottom" title="Arhiveaza mesaj">
+                          <span class="glyphicon glyphicon-briefcase"></span>
+                        </a>
+                        {% endif %}
+                        {% endif %}
+                        <a href="{{url_for('messages.ajaxedit',action='delete',id=t.id)}}" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="bottom" title="Sterge mesaj">
+                          <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                      </td>
+                      <td>{% if session.activesubmenu == 'trimise' %}{{t.recipients|map(attribute='username')|join(',')}}{% else %}{{t.sender.username}}{% endif %}</td>
+                      <td><a href='{{url_for('messages.details',id=t.id)}}'>{{t.title}}</a></td>
+                      <td>{{moment(t.date,local=True).format('HH:mm - D.MM.YYYY')}}</td>
+                      
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+              </table>
+            </div>
+          </div>
+        
+      </div>
+    
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+    {{ moment.include_jquery() }}
+    {{ moment.include_moment() }}
+    {{ moment.lang('ro') }}
+    <script src="/static/js/jquery.dataTables.min.js"></script>
+    <script src="/static/js/dataTables.tableTools.js"></script>
+    <script src="/static/js/dataTables.bootstrap.js"></script>
+    
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('#maintable').dataTable( {
+            paging:   true,
+            ordering: true,
+            info:     true,
+            searching: true,
+            stateSave: true,
+            language: {
+              info : "Pagina _PAGE_ din _PAGES_",
+              search: "Cauta:",
+              lengthMenu: "Afiseaza _MENU_ rezultate",
+              paginate: {
+                first: "Prima",
+                previous: "Precedenta",
+                next: "Urmatoarea",
+                last: "Ultima"
+              }
+            },
+            dom: 'T<"clear">lfrtip',
+            tableTools: {
+              "sRowSelect": "multi",
+              "aButtons": ["select_all","select_none"]
+            }
+        } );
+      } );
+      window.setTimeout(function() {
+    $(".alert").fadeTo(1500, 0).slideUp(100, function(){
+        $(this).remove(); 
+    });
+}, 2000);
+
+    </script>
+{% endblock %}

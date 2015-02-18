@@ -1,0 +1,88 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block title %} Mesaj {% endblock %}
+
+{% block styles %}
+  {{ super() }}
+  <!-- Custom styles for this template -->
+  <link href="/static/css/app.css" rel="stylesheet">
+{% endblock %}
+
+{% block navbar %}
+  
+  {% import "macros.html" as macros %}
+  {{ macros.mainnavmenu(session) }}
+
+{% endblock %}
+
+{% block content %}
+    
+    <div class="container">
+    {% import "macros.html" as macros %}
+    {{ macros.flashing() }}
+
+        <div class="row content-header">
+          <div class="col-md-6">
+            <h1><strong>{{pagetitle}}</strong></h1>
+          </div>
+          <div class="col-md-6 pull-right" style="margin-top:25px;">
+            <span class="pull-right">
+            <a href="{{request.referrer}}" title="Inapoi" class="btn btn-primary"><span class="glyphicon glyphicon-step-backward" aria-hidden="true"></span> Inapoi</a></span>
+          </div>
+        </div>
+        <div class="row panel panel-primary">
+          <div class="panel-body">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+              {% for t in results %}
+                <div class="panel panel-default">
+                  <div class="panel-heading" role="tab" id="heading{{t}}">
+                    <h4 class="panel-title">
+                      <p><strong>{{results[t]['senderlabel']}}:</strong> {{results[t]['sender']}}</p>
+                      <p><strong>{{results[t]['recipientslabel']}}:</strong> {{results[t]['recipients']}}</p>
+                      <p><strong>Subiect:</strong> {{results[t]['subject']}}
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{t}}" aria-expanded={% if t == 0 %}"true"{% else %}"false"{% endif %} aria-controls="collapse{{t}}" class="btn btn-xs btn-primary pull-right">
+                        Detalii
+                      </a>
+                    </h4>
+                  </div>
+                  <div id="collapse{{t}}" class="panel-collapse collapse {% if t == 0 %} in{% endif %}" role="tabpanel" aria-labelledby="headingOne">
+                    <div class="panel-body">
+                      {{results[t]['content']}}
+                    </div>
+                    <div class="panel-footer">
+                      <a href="{{url_for('messages.replymessage',id=results[t]['id'])}}" class="btn btn-xs btn-primary">Raspunde</a>
+                      <span class="pull-right">{{moment(results[t]['date'],local=True).format('HH:mm - D.MM.YYYY')}}</span>
+                    </div>
+                  </div>
+                  </div>            
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        
+        
+      </div>
+    
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+  {{ moment.include_jquery() }}
+  {{ moment.include_moment() }}
+  {{ moment.lang('ro') }}
+    
+   <script>
+    $(document).ready(function() {
+        window.setTimeout(function() {
+    $(".alert").fadeTo(1500, 0).slideUp(100, function(){
+        $(this).remove(); 
+    }); 
+}, 2000);
+
+     });
+     </script>
+
+{% endblock %}

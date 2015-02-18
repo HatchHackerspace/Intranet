@@ -1,0 +1,42 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% block title %}{{pagetitle}}{% endblock %}
+
+
+{% block styles %}
+  {{ super() }}
+  <!-- Custom styles for this template -->
+  <link href="/static/css/app.css" rel="stylesheet">
+{% endblock %}   
+
+
+{% block content %}
+
+  <div class="login-block">
+  {% import "macros.html" as macros %}
+  {{ macros.flashing() }}
+
+  {{ wtf.quick_form(form, form_type="horizontal",horizontal_columns=("lg",3,6),button_map={'submit':'success'}) }}
+
+  {% if login %}
+  <p><a href="{{url_for('users.resetlink')}}">Am uitat parola!</a></p>
+  <p><a href="{{url_for('users.registeruser')}}">Utilizator nou? Click aici pentru inregistrare</a></p>
+  {% endif %}
+  </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+     $(document).ready(function() {
+          window.setTimeout(function() {
+    $(".alert").fadeTo(1500, 0).slideUp(100, function(){
+        $(this).remove(); 
+    });
+}, 2000)};
+    </script>
+
+{% endblock %}
+

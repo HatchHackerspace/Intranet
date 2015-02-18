@@ -1,0 +1,8 @@
+<p>Buna {{user.username}},</p>
+
+<p>Pentru finalizarea inregistrarii tale, te rugam sa dai click pe urmatorul link:
+
+<a href="{{url_for('users.confirmemail',token=token,_external=True)}}">activare email</a></p>
+
+<p>Multumim,
+Echipa Hatch Atelier</p>

@@ -1,0 +1,130 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %} Lista operatii {% endblock %}
+
+{% block styles %}
+  {{ super() }}
+  <link href="/static/css/jquery.dataTables.min.css" rel="stylesheet">
+  <link href="/static/css/dataTables.tableTools.css" rel="stylesheet">
+  <link href="/static/css/dataTables.bootstrap.css" rel="stylesheet">
+  <!-- Custom styles for this template -->
+  <link href="/static/css/app.css" rel="stylesheet">
+{% endblock %}
+
+{% block navbar %}
+  
+  {% import "macros.html" as macros %}
+  {{ macros.mainnavmenu(session) }}
+
+{% endblock %}
+
+{% block content %}
+    
+    <div class="container">
+    {% import "macros.html" as macros %}
+    {{ macros.flashing() }}
+
+        <div class="row content-header">
+          <div class="col-md-6">
+            <h1><strong>Lista operatii</strong></h1>
+          </div>
+          {% if g.user.permissions in ['full'] %}
+          <div class="col-md-6 pull-right" style="margin-top:25px;">
+              <div class="btn-group pull-right">
+                <a href="{{url_for('inventory.list',value='produse')}}" class="btn {% if session.activesubmenu == 'produse' %} btn-primary {% else %} btn-default {% endif %}">Produse</a>
+                <a href="{{url_for('inventory.list',value='operatii')}}" class="btn {% if session.activesubmenu == 'operatii' %} btn-primary {% else %} btn-default {% endif %}">Operatii inventar</a>
+              </div>  
+              <span class="pull-right" style="margin-right: 10px;">
+                <a href="{{url_for('inventory.addoperation')}}" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> Adauga operatie</a>
+              </span> 
+              <span class="pull-right" style="margin-right: 10px;">
+                <a href="{{url_for('inventory.addproduct')}}" class="btn btn-success"><i class="glyphicon glyphicon-plus"></i> Adauga produs</a>
+              </span>
+          </div>
+          {% endif %}
+        </div>
+        <div class="panel panel-primary">
+          <div class="panel-body">
+            <table id="maintable" class="table" cellspacing="0" width="100%">
+                <thead>
+                  <tr>
+                    <th width="10%">Operatie</th>
+                    <th width="20%">Produs</th>
+                    <th width="10%">Cantitate</th>
+                    <th>Data</th>
+                    <th>Referinta</th>
+                    {% if g.user.permissions == 'full' %}
+                    <th width="15%">Actiuni</th>
+                    {% endif %}
+                  </tr>
+                </thead>
+                  <tbody>
+                     {% for t in results %}
+                     <tr>
+                      <td>{% if t.operation == 1 %}<span class="label label-success">Intrare</span>{% else %}<span class="label label-danger">Iesire</span>{%endif%}</td>
+                      <td>{{t.product.name}}</td>
+                      <td>{{t.number}}</td>
+                      <td>{{moment(t.timestamp,local=True).format('D.MM.YYYY')}}
+                      <td>{{t.reference|truncate(20,True)}}</td>
+                      {% if g.user.permissions == 'full' %}
+                      <td>
+                        <span class="pull-right">
+                        <a href="{{url_for('inventory.ajaxedit',action='delete',value='operatii',id=t.id)}}" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Sterge produs">
+                          <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                        </span></td>
+                      {% endif %}
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+              </table>
+            </div>
+          </div>
+        
+      </div>
+    
+
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+    {{ moment.include_jquery() }}
+    {{ moment.include_moment() }}
+    <script src="/static/js/jquery.dataTables.min.js"></script>
+    <script src="/static/js/dataTables.tableTools.js"></script>
+    <script src="/static/js/dataTables.bootstrap.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $('#maintable').dataTable( {
+            paging:   true,
+            ordering: true,
+            info:     true,
+            searching: true,
+            stateSave: true,
+            language: {
+              info : "Pagina _PAGE_ din _PAGES_",
+              search: "Cauta:",
+              lengthMenu: "Afiseaza _MENU_ rezultate",
+              paginate: {
+                first: "Prima",
+                previous: "Precedenta",
+                next: "Urmatoarea",
+                last: "Ultima"
+              }
+            },
+            dom: 'T<"clear">lfrtip',
+            tableTools: {
+              "sRowSelect": "multi",
+              "aButtons": ["select_all","select_none"]
+            }
+        } );
+      } );
+      window.setTimeout(function() {
+    $(".alert").fadeTo(1500, 0).slideUp(100, function(){
+        $(this).remove(); 
+    });
+}, 2000);
+
+    </script>
+{% endblock %}
