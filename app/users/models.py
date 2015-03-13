@@ -11,7 +11,7 @@ class Users(UserMixin,db.Document):
     username = db.StringField(db_field='un',required=True,unique=True,verbose_name='Nume utilizator')
     avatar = db.ImageField(db_field='ig',verbose_name='Avatar',size=(640,480,True))
     pswd = db.StringField(db_field='ps',required=True)
-    joindate = db.DateTimeField(db_field='jd',verbose_name='Data inregistrare',default=datetime.datetime.now())
+    joindate = db.DateTimeField(db_field='jd',verbose_name='Data inregistrare',default=datetime.datetime.now)
     email = db.StringField(db_field='em',required=True,unique=True,verbose_name='Email utilizator')
     status = db.BooleanField(db_field='st',verbose_name='Status',default=True)
     permissions = db.StringField(db_field='pm',required=True,verbose_name='Drepturi',default='user')
