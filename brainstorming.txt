@@ -23,6 +23,7 @@ Requirements file used to gather all specifications for the intranet.
 7.current projects (reference to projects ids, list of ids)
 8.permissions (admin, user)
 9.avatar (image file, max 640x480)
+-member pages should be publicly accessible, with select elements visible
 
 [Messages]
 -are private conversations between one or more of the members
@@ -48,6 +49,7 @@ Requirements file used to gather all specifications for the intranet.
 [Projects]
 -similar to public wall (posts with a description)
 -members can create a project and then other members can apply to join
+-members can invite other members to join
 -database model:
 1.publish date (automatic, ISO format)
 2.title (required, user input, string)
@@ -70,6 +72,7 @@ Requirements file used to gather all specifications for the intranet.
 - Invite system for projects (?) - aka "I'd really like it if you helped me with this project" 
 - Finance ideas area 
 - Wishlists (?) 
-- Mini accounting -> membership dues, extra towards specific projects or wishlists
+- forum or QA area
+- Mini accounting -> membership dues and membership reminders, extra towards specific projects or wishlists
 
 [Ideas for future developments, integrations, etc]
